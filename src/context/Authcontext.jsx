@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-export default function Authcontext() {
+const AuthContext = createContext();
+
+export default function AuthProvider({children}) {
 
     // This component can be used to manage authentication state, such as user login status, roles, etc.
     const [user, setUser] = useState(null);     // State to hold user information, used in login to select a user from all the registered users
@@ -19,18 +21,36 @@ export default function Authcontext() {
             return u.username===username && u.password === password;
         })
 
-        if(!findUser) return {success: false, message: "Username is does not exist"}
+        if(!findUser) return {success: false, message: "Username is does not exist"};
         setUser(findUser);
-        return true;
+        return {success: true, message: "Username is Logedin"};
     }
 
     function signup(username, password){
-        
+        const userNameExist = users.some((u)=>{
+            return u.username === username && u.password === password;
+        })
+
+        if(userNameExist){
+            return {success: false, message: "Username is already taken"}
+        }
+        const newUser = {username, password}
+        setUsers((prevState)=>{
+            return [...prevState, newUser];
+        })
+        setUser(newUser);
+        return {success: true, message: "User created and logedin"}
     }
 
-  return (
-    <div>
-      Authcontext
-    </div>
-  )
+    function logOut(){ 
+        setUser(null);
+    }
+
+    return (
+        <AuthContext.Provider value={{login, logOut, signup, user}}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
+
+export const useAuth = () => useContext(AuthContext);
