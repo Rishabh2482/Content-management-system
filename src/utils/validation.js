@@ -1,0 +1,1 @@
+export const isNotEmpty = (str) => str && str.trim();
