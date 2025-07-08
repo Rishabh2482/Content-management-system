@@ -28,17 +28,20 @@ export default function AuthProvider({children}) {
 
     function signup(username, password){
         const userNameExist = users.some((u)=>{
-            return u.username === username && u.password === password;
+            return u.username === username;
         })
 
         if(userNameExist){
+            console.log("Username exist");
             return {success: false, message: "Username is already taken"}
         }
+
+        console.log("Username does not exist");
         const newUser = {username, password}
         setUsers((prevState)=>{
             return [...prevState, newUser];
         })
-        setUser(newUser);
+        setUser({username});
         return {success: true, message: "User created and logedin"}
     }
 
