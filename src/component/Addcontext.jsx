@@ -40,7 +40,7 @@ export default function Addcontext() {
       title,
       body,
       category,
-      data: new Date().toISOString(),
+      date: new Date().toISOString(),
       author: user.username,
     }
 
