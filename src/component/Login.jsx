@@ -22,7 +22,6 @@ export default function Login() {
       return;
     }
     const isLogedIn = login(username, password);
-    console.log(isLogedIn)
     if(isLogedIn) {
       navigate('/view')
     } else {
@@ -41,6 +40,7 @@ export default function Login() {
             type="text"
             placeholder="Enter username"
             value={username}
+            autoComplete="username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
@@ -51,6 +51,7 @@ export default function Login() {
             type="password"
             placeholder="Enter password"
             value={password}
+            autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>

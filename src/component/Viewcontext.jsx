@@ -111,7 +111,8 @@ export default function Viewcontext() {
                                 <h3>{item.title}</h3>
                                 <small>Category: {item.category} | Author: {item.author}</small>
                               </div>
-                              { (<div className="content-actions">
+                              { (user?.username === item.author)&&
+                                 (<div className="content-actions">
                                 <Link to={`/edit/${item.id}`} className="btn-edit">Edit</Link>
                                 <button onClick={()=>handleDelete(item.id)} className="btn-delete">Delete</button>
                               </div>)}
@@ -132,7 +133,7 @@ export default function Viewcontext() {
                             })}
                           </div>
 
-                          { (user.username !== item.author) && ( user && (
+                          { user && (
                           <form className="comment-form" onSubmit={(e)=> handleCommentSubmit(e,item.id)}>
                             <input
                              type="text"
@@ -141,7 +142,7 @@ export default function Viewcontext() {
                              onChange={(e) => handleCommentChange(item.id, e.target.value)}
                              />
                             <button className="btn" type="submit">Comment</button>
-                          </form>))
+                          </form>)
                           }
                       </li>)
               }
