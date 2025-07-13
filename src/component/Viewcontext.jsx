@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "../context/Authcontext";
 import { useContent } from "../context/Contentcontext"
 import {isNotEmpty} from "../utils/validation"
@@ -42,7 +42,7 @@ export default function Viewcontext() {
     setCommentInput((prev) => ({...prev, [contentId]: ''}))
   }
 
-  const filteredContent =contents.filter((item)=>{
+  const filteredContent = useMemo(()=>contents.filter((item)=>{
       const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = filterCategory ==='All' || item.category === filterCategory;
       return matchesSearch && matchesCategory;
@@ -63,7 +63,7 @@ export default function Viewcontext() {
         default:
           return 0;
       }
-  })
+  }),[contents,sortOption,filterCategory,searchTerm]);
 
 
   return (
